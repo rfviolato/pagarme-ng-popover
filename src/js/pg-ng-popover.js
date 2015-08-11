@@ -2,13 +2,16 @@ angular
 	.module('pg-ng-popover', [])
 	.directive('pgPopover', pgPopover);
 
-	function pgPopover(){
+	pgPopover.$inject = ['$compile'];
+
+	function pgPopover($compile){
 
 		var directive = {
 
 			scope: {
 
-				eventType: '@', 
+				eventType: '@',
+				openedClass: '@',
 
 			},
 
@@ -21,6 +24,7 @@ angular
 		function compile($element, attrs){
 
 			attrs.eventType = attrs.eventType || 'hover';
+			attrs.openedClass = attrs.openedClass || 'opened';
 
 			return {
 
@@ -31,6 +35,13 @@ angular
 		}
 
 		function postLink($scope, $element){
+
+			var popoverElm = angular.element('<div class="pg-popover" ng-if="isOpened === true"></div>');
+
+			$element.append(popoverElm);
+			$compile(popoverElm)($scope);
+
+			$scope.isOpened = false;
 
 			if($scope.eventType === 'hover') {
 
@@ -44,10 +55,22 @@ angular
 			}
 
 			function mouseenter(){
+
+				$scope.$apply(function(){
+
+					$scope.isOpened = true;
+					
+				});
 				
 			}
 
 			function mouseleave(){
+
+				$scope.$apply(function(){
+
+					$scope.isOpened = false;
+					
+				});
 				
 			}
 

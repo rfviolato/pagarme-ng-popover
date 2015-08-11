@@ -32,12 +32,12 @@ angular
 
 		function postLink($scope, $element){
 
-			if(eventType === 'hover') {
+			if($scope.eventType === 'hover') {
 
 				$element.on('mouseenter', mouseenter);
 				$element.on('mouseleave', mouseleave);
 
-			} else if(eventType === 'click') {
+			} else if($scope.eventType === 'click') {
 
 				$element.on('mouseleave', click);
 

@@ -6,15 +6,54 @@ angular
 
 		var directive = {
 
-			link: postLink,
+			scope: {
+
+				eventType: '@', 
+
+			},
+
+			compile: compile,
 
 		};
 
 		return directive;
 
-		function postLink(){
+		function compile($element, attrs){
 
+			attrs.eventType = attrs.eventType || 'hover';
+
+			return {
+
+				post: postLink,
+
+			}
 			
+		}
+
+		function postLink($scope, $element){
+
+			if(eventType === 'hover') {
+
+				$element.on('mouseenter', mouseenter);
+				$element.on('mouseleave', mouseleave);
+
+			} else if(eventType === 'click') {
+
+				$element.on('mouseleave', click);
+
+			}
+
+			function mouseenter(){
+				
+			}
+
+			function mouseleave(){
+				
+			}
+
+			function click(){
+				
+			}
 			
 		}
 		

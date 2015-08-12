@@ -1,10 +1,20 @@
+'use strict';
+
+/*
+
+	Developed by Rafael Violato @ pagar.me
+
+*/
+
+(function(){
+
 angular
 	.module('pg-ng-popover', [])
 	.directive('pgPopover', pgPopover);
 
-	pgPopover.$inject = ['$compile'];
+	pgPopover.$inject = ['$compile', '$sce'];
 
-	function pgPopover($compile){
+	function pgPopover($compile, $sce){
 
 		var directive = {
 
@@ -12,6 +22,7 @@ angular
 
 				eventType: '@',
 				openedClass: '@',
+				content: '=',
 
 			},
 
@@ -23,7 +34,6 @@ angular
 
 		function compile($element, attrs){
 
-			attrs.eventType = attrs.eventType || 'hover';
 			attrs.openedClass = attrs.openedClass || 'opened';
 
 			return {
@@ -36,27 +46,26 @@ angular
 
 		function postLink($scope, $element){
 
-			var popOver = angular.element('<div class="pg-popover" ng-if="isOpened === true"></div>');
+			var popOver;
 
-			$element.append(popOver);
-			$compile(popOver)($scope);
+			popOver = angular.element('<div class="pg-popover" ng-if="isOpened === true" ng-bind-html="content"></div>');
+			$element.append($compile(popOver)($scope));
 
+			$scope.content = $sce.trustAsHtml($scope.content);
 			$scope.isOpened = false;
 
 			switch($scope.eventType){
-
-				case 'hover':
-
-					$element.on('mouseenter', show);
-					$element.on('mouseleave', hide);				
-
-				break;
 
 				case 'click':
 
 					$element.on('click', click);
 
 				break;
+
+				default:
+
+					$element.on('mouseenter', show);
+					$element.on('mouseleave', hide);
 
 			}
 
@@ -91,3 +100,5 @@ angular
 		}
 		
 	}
+	
+})();

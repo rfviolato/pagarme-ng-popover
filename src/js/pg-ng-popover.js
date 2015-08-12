@@ -36,45 +36,49 @@ angular
 
 		function postLink($scope, $element){
 
-			var popoverElm = angular.element('<div class="pg-popover" ng-if="isOpened === true"></div>');
+			var popOver = angular.element('<div class="pg-popover" ng-if="isOpened === true"></div>');
 
-			$element.append(popoverElm);
-			$compile(popoverElm)($scope);
+			$element.append(popOver);
+			$compile(popOver)($scope);
 
 			$scope.isOpened = false;
 
 			if($scope.eventType === 'hover') {
 
-				$element.on('mouseenter', mouseenter);
-				$element.on('mouseleave', mouseleave);
+				$element.on('mouseenter', open);
+				$element.on('mouseleave', hide);
 
 			} else if($scope.eventType === 'click') {
 
-				$element.on('mouseleave', click);
+				$element.on('click', click);
 
 			}
 
-			function mouseenter(){
+			function click(){
+
+				$scope.isOpened ? hide() : show();
+				
+			}
+
+			function show(){
 
 				$scope.$apply(function(){
 
 					$scope.isOpened = true;
+					popOver.addClass($scope.openedClass);
 					
 				});
 				
 			}
 
-			function mouseleave(){
+			function hide(){
 
 				$scope.$apply(function(){
 
 					$scope.isOpened = false;
+					popOver.removeClass($scope.openedClass);
 					
 				});
-				
-			}
-
-			function click(){
 				
 			}
 			

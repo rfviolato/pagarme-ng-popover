@@ -1,10 +1,20 @@
+'use strict';
+
+/*
+
+	Developed by Rafael Violato @ pagar.me
+
+*/
+
+(function(){
+
 angular
 	.module('pg-ng-popover', [])
 	.directive('pgPopover', pgPopover);
 
-	pgPopover.$inject = ['$compile'];
+	pgPopover.$inject = ['$compile', '$sce'];
 
-	function pgPopover($compile){
+	function pgPopover($compile, $sce){
 
 		var directive = {
 
@@ -12,6 +22,7 @@ angular
 
 				eventType: '@',
 				openedClass: '@',
+				content: '=',
 
 			},
 
@@ -23,7 +34,6 @@ angular
 
 		function compile($element, attrs){
 
-			attrs.eventType = attrs.eventType || 'hover';
 			attrs.openedClass = attrs.openedClass || 'opened';
 
 			return {
@@ -36,48 +46,59 @@ angular
 
 		function postLink($scope, $element){
 
-			var popoverElm = angular.element('<div class="pg-popover" ng-if="isOpened === true"></div>');
+			var popOver;
 
-			$element.append(popoverElm);
-			$compile(popoverElm)($scope);
+			popOver = angular.element('<div class="pg-popover" ng-if="isOpened === true" ng-bind-html="content"></div>');
+			$element.append($compile(popOver)($scope));
 
+			$scope.content = $sce.trustAsHtml($scope.content);
 			$scope.isOpened = false;
 
-			if($scope.eventType === 'hover') {
+			switch($scope.eventType){
 
-				$element.on('mouseenter', mouseenter);
-				$element.on('mouseleave', mouseleave);
+				case 'click':
 
-			} else if($scope.eventType === 'click') {
+					$element.on('click', click);
 
-				$element.on('mouseleave', click);
+				break;
+
+				default:
+
+					$element.on('mouseenter', show);
+					$element.on('mouseleave', hide);
 
 			}
 
-			function mouseenter(){
+			function click(){
+
+				$scope.isOpened ? hide() : show();
+				
+			}
+
+			function show(){
 
 				$scope.$apply(function(){
 
 					$scope.isOpened = true;
+					popOver.addClass($scope.openedClass);
 					
 				});
 				
 			}
 
-			function mouseleave(){
+			function hide(){
 
 				$scope.$apply(function(){
 
 					$scope.isOpened = false;
+					popOver.removeClass($scope.openedClass);
 					
 				});
-				
-			}
-
-			function click(){
 				
 			}
 			
 		}
 		
 	}
+	
+})();

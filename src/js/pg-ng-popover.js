@@ -43,14 +43,20 @@ angular
 
 			$scope.isOpened = false;
 
-			if($scope.eventType === 'hover') {
+			switch($scope.eventType){
 
-				$element.on('mouseenter', open);
-				$element.on('mouseleave', hide);
+				case 'hover':
 
-			} else if($scope.eventType === 'click') {
+					$element.on('mouseenter', show);
+					$element.on('mouseleave', hide);				
 
-				$element.on('click', click);
+				break;
+
+				case 'click':
+
+					$element.on('click', click);
+
+				break;
 
 			}
 

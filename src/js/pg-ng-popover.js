@@ -27,6 +27,7 @@ angular
 			},
 
 			compile: compile,
+			controller: controller,
 
 		};
 
@@ -44,6 +45,22 @@ angular
 			
 		}
 
+		function controller($scope){
+
+			$scope.$watch('content', trustHtml);
+
+			function trustHtml(val){
+
+				if(typeof val === 'string'){
+
+					$scope.content = $sce.trustAsHtml(val);
+
+				}
+				
+			}
+			
+		}
+
 		function postLink($scope, $element){
 
 			var popOver;
@@ -51,7 +68,6 @@ angular
 			popOver = angular.element('<div class="pg-popover" ng-if="isOpened === true" ng-bind-html="content"></div>');
 			$element.append($compile(popOver)($scope));
 
-			$scope.content = $sce.trustAsHtml($scope.content);
 			$scope.isOpened = false;
 
 			switch($scope.eventType){

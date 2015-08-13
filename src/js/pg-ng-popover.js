@@ -12,9 +12,9 @@ angular
 	.module('pg-ng-popover', [])
 	.directive('pgPopover', pgPopover);
 
-	pgPopover.$inject = ['$compile', '$sce'];
+	pgPopover.$inject = ['$compile', '$sce', '$timeout'];
 
-	function pgPopover($compile, $sce){
+	function pgPopover($compile, $sce, $timeout){
 
 		var directive = {
 
@@ -53,7 +53,7 @@ angular
 
 				if(typeof val === 'string'){
 
-					$scope.content = $sce.trustAsHtml(val);
+					$scope.popOverContent = $sce.trustAsHtml(val);
 
 				}
 				
@@ -63,12 +63,24 @@ angular
 
 		function postLink($scope, $element){
 
+			var elmTpl = [
+							 
+							 '<div class="pg-popover"',
+							 'ng-if="isOpened === true"',
+							 'ng-bind-html="popOverContent"',
+							 'ng-style="{\'left\': left + \'px\', \'top\': top + \'px\'}">',
+							 '</div>'
+
+						 ].join('');
+
 			var popOver;
 
-			popOver = angular.element('<div class="pg-popover" ng-if="isOpened === true" ng-bind-html="content"></div>');
+			popOver = angular.element(elmTpl);
 			$element.append($compile(popOver)($scope));
 
 			$scope.isOpened = false;
+			$scope.left = 0;
+			$scope.top = 0;
 
 			switch($scope.eventType){
 
@@ -96,7 +108,14 @@ angular
 				$scope.$apply(function(){
 
 					$scope.isOpened = true;
-					popOver.addClass($scope.openedClass);
+
+					$timeout(function(){
+
+						popOver = angular.element($element[0].querySelector('.pg-popover'));
+						popOver.addClass($scope.openedClass);
+						position();
+						
+					});
 					
 				});
 				
@@ -106,10 +125,23 @@ angular
 
 				$scope.$apply(function(){
 
-					$scope.isOpened = false;
 					popOver.removeClass($scope.openedClass);
+					$scope.isOpened = false;
 					
 				});
+				
+			}
+
+			function position(){
+
+				var _popOverWidth = popOver.prop('offsetWidth');
+				var _popOverHeight = popOver.prop('offsetHeight');
+				var _elmWidth = $element.prop('offsetWidth');
+
+				$scope.left = -((_popOverWidth - _elmWidth) / 2);
+				$scope.top = -(_popOverHeight + 10);
+
+				console.log($scope.left, _elmWidth, _popOverWidth);
 				
 			}
 			

@@ -4,6 +4,6 @@ angular
 
 	function testCtrl($scope){
 
-		$scope.testBinding = 'Testando o Popover :D';
+		$scope.testBinding = 'Testando o Popover';
 		
 	}

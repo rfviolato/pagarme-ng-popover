@@ -53,11 +53,18 @@ $popoverBG: #484848;
 	top:0;
 	left:0;
 	padding: 3px 12px;
+	opacity:0;
 	color: #fff;
 	border-radius: 5px;
 	border: 1px solid #323232;
 	background-color: rgba($popoverBG, 0.95);
 	transition: opacity $_trns, transform $_trns;
 	&, * { white-space: nowrap; }
+
+	&.opened{
+
+		opacity:1;
+
+	}
 
 }

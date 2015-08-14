@@ -12,9 +12,9 @@ angular
 	.module('pg-ng-popover', [])
 	.directive('pgPopover', pgPopover);
 
-	pgPopover.$inject = ['$compile', '$sce', '$timeout'];
+	pgPopover.$inject = ['$timeout', '$document'];
 
-	function pgPopover($compile, $sce, $timeout){
+	function pgPopover($timeout, $document){
 
 		var directive = {
 
@@ -27,7 +27,6 @@ angular
 			},
 
 			compile: compile,
-			controller: controller,
 
 		};
 
@@ -45,42 +44,13 @@ angular
 			
 		}
 
-		function controller($scope){
-
-			$scope.$watch('content', trustHtml);
-
-			function trustHtml(val){
-
-				if(typeof val === 'string'){
-
-					$scope.popOverContent = $sce.trustAsHtml(val);
-
-				}
-				
-			}
-			
-		}
-
 		function postLink($scope, $element){
 
-			var elmTpl = [
-							 
-							 '<div class="pg-popover"',
-							 'ng-if="isOpened === true"',
-							 'ng-bind-html="popOverContent"',
-							 'ng-style="{\'left\': left + \'px\', \'top\': top + \'px\'}">',
-							 '</div>'
-
-						 ].join('');
-
 			var popOver;
+			var isOpened = false;
+			var elmTpl = '<div class="pg-popover">' + $scope.content + '</div>';
 
 			popOver = angular.element(elmTpl);
-			$element.append($compile(popOver)($scope));
-
-			$scope.isOpened = false;
-			$scope.left = 0;
-			$scope.top = 0;
 
 			switch($scope.eventType){
 
@@ -99,23 +69,19 @@ angular
 
 			function click(){
 
-				$scope.isOpened ? hide() : show();
+				isOpened ? hide() : show();
 				
 			}
 
 			function show(){
 
-				$scope.$apply(function(){
+				$element.append(popOver);
+				position();
 
-					$scope.isOpened = true;
+				$timeout(function(){
 
-					$timeout(function(){
-
-						popOver = angular.element($element[0].querySelector('.pg-popover'));
-						popOver.addClass($scope.openedClass);
-						position();
-						
-					});
+					isOpened = true;
+					popOver.addClass($scope.openedClass);
 					
 				});
 				
@@ -123,10 +89,13 @@ angular
 
 			function hide(){
 
-				$scope.$apply(function(){
+				popOver.removeClass($scope.openedClass);
 
-					popOver.removeClass($scope.openedClass);
-					$scope.isOpened = false;
+				popOver.on('transitionend', function(){
+
+					popOver.remove();
+					popOver.off('transitionend');
+					isOpened = false;
 					
 				});
 				
@@ -137,11 +106,15 @@ angular
 				var _popOverWidth = popOver.prop('offsetWidth');
 				var _popOverHeight = popOver.prop('offsetHeight');
 				var _elmWidth = $element.prop('offsetWidth');
+				var _left = -((_popOverWidth - _elmWidth) / 2);
+				var _top = -(_popOverHeight + 10);
 
-				$scope.left = -((_popOverWidth - _elmWidth) / 2);
-				$scope.top = -(_popOverHeight + 10);
+				popOver.css({
 
-				console.log($scope.left, _elmWidth, _popOverWidth);
+					top:  _top + 'px',
+					left: _left + 'px',
+
+				});
 				
 			}
 			

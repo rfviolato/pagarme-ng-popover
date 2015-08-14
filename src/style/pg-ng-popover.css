@@ -35,6 +35,7 @@ object {
   top: 0;
   left: 0;
   padding: 3px 12px;
+  opacity: 0;
   color: #fff;
   border-radius: 5px;
   border: 1px solid #323232;
@@ -43,3 +44,5 @@ object {
   transition: opacity 125ms ease-out, transform 125ms ease-out; }
   .pg-popover, .pg-popover * {
     white-space: nowrap; }
+  .pg-popover.opened {
+    opacity: 1; }

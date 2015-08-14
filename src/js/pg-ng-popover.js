@@ -78,26 +78,22 @@ angular
 				$element.append(popOver);
 				popOver.off('transitionend');
 				position();
-
-				$timeout(function(){
-
-					isOpened = true;
-					popOver.addClass($scope.openedClass);
-					
-				});
+				isOpened = true;
+				popOver.addClass($scope.openedClass);
 				
 			}
 
 			function hide(){
 
+				popOver.on('transitionend', transitionend);
 				popOver.removeClass($scope.openedClass);
 
-				popOver.on('transitionend', function(){
+				function transitionend(){
 
 					isOpened = false;
 					popOver.remove();
 					
-				});
+				}
 				
 			}
 

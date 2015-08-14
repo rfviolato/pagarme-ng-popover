@@ -76,6 +76,7 @@ angular
 			function show(){
 
 				$element.append(popOver);
+				popOver.off('transitionend');
 				position();
 
 				$timeout(function(){
@@ -93,9 +94,8 @@ angular
 
 				popOver.on('transitionend', function(){
 
-					popOver.remove();
-					popOver.off('transitionend');
 					isOpened = false;
+					popOver.remove();
 					
 				});
 				

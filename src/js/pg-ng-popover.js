@@ -22,6 +22,7 @@ angular
 
 				eventType: '@',
 				openedClass: '@',
+				transition: '@',
 				content: '=',
 
 			},
@@ -48,6 +49,7 @@ angular
 
 			var popOver;
 			var isOpened = false;
+			var transitionEndEvt = 'transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd';
 			var elmTpl = '<div class="pg-popover">' + $scope.content + '</div>';
 
 			popOver = angular.element(elmTpl);
@@ -75,8 +77,13 @@ angular
 
 			function show(){
 
+				if($scope.transition){
+
+					popOver.off(transitionEndEvt);
+
+				}
+
 				$element.append(popOver);
-				popOver.off('transitionend');
 				position();
 				isOpened = true;
 				popOver.addClass($scope.openedClass);
@@ -85,10 +92,20 @@ angular
 
 			function hide(){
 
-				popOver.on('transitionend', transitionend);
-				popOver.removeClass($scope.openedClass);
+				if($scope.transition){
 
-				function transitionend(){
+					popOver.on(transitionEndEvt, remove);
+					popOver.removeClass($scope.openedClass);
+
+				}else{
+
+					popOver.removeClass($scope.openedClass);
+					remove();
+
+				}
+
+
+				function remove(){
 
 					isOpened = false;
 					popOver.remove();

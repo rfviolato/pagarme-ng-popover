@@ -85,6 +85,7 @@ $arrowSize: 10px;
 		position: absolute;
 		width: 0; 
 		height: 0; 
+		top:-($arrowSize - 1px);
 		border-left: $arrowSize solid transparent;
 		border-right: $arrowSize solid transparent;
 		border-bottom: $arrowSize solid $popoverBG;
@@ -98,6 +99,7 @@ $arrowSize: 10px;
 		position: absolute;
 		width: 0; 
 		height: 0; 
+		bottom:-($arrowSize - 1px);
 		border-left: $arrowSize solid transparent;
 		border-right: $arrowSize solid transparent;
 		border-top: $arrowSize solid $popoverBG;
@@ -106,17 +108,8 @@ $arrowSize: 10px;
 
 	&:after{
 
-		content:"";
-		display:block;
-		position: absolute;
-		width: 0; 
-		height: 0; 
-		bottom:-($arrowSize - 1px);
 		left:50%;
 		margin: 0 0 0 (-$arrowSize) ;
-		border-left: $arrowSize solid transparent;
-		border-right: $arrowSize solid transparent;
-		border-top: $arrowSize solid $popoverBG;
 
 	}
 

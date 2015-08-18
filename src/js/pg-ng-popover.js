@@ -23,6 +23,7 @@ angular
 				eventType: '@',
 				openedClass: '@',
 				transition: '@',
+				position: '@',
 				content: '=',
 
 			},
@@ -69,6 +70,20 @@ angular
 
 			}
 
+			switch($scope.position){
+
+				case 'bottom':
+
+					popOver.addClass('arrow-up');
+
+				break;
+
+				default:
+
+					popOver.addClass('arrow-down');
+
+			}
+
 			function click(){
 
 				isOpened ? hide() : show();
@@ -77,29 +92,37 @@ angular
 
 			function show(){
 
-				if($scope.transition){
+				if($scope.transition == 'true'){
 
 					popOver.off(transitionEndEvt);
+					append();
+					popOver.addClass($scope.openedClass);
+
+				}else{
+
+					append();
 
 				}
 
-				$element.append(popOver);
-				position();
-				isOpened = true;
-				popOver.addClass($scope.openedClass);
+				function append(){
+
+					$element.append(popOver);
+					position();
+					isOpened = true;
+					
+				}
 				
 			}
 
 			function hide(){
 
-				if($scope.transition){
+				if($scope.transition == 'true'){
 
 					popOver.on(transitionEndEvt, remove);
 					popOver.removeClass($scope.openedClass);
 
 				}else{
 
-					popOver.removeClass($scope.openedClass);
 					remove();
 
 				}
@@ -119,13 +142,26 @@ angular
 				var _popOverWidth = popOver.prop('offsetWidth');
 				var _popOverHeight = popOver.prop('offsetHeight');
 				var _elmWidth = $element.prop('offsetWidth');
-				var _left = -((_popOverWidth - _elmWidth) / 2);
-				var _top = -(_popOverHeight + 10);
+				var _vert = -((_popOverWidth - _elmWidth) / 2);
+				var _horz;
+				var _elmHeight
+
+				if($scope.position === 'bottom'){
+
+					_elmHeight = $element.prop('offsetHeight');
+
+					_horz = (_popOverHeight + _elmHeight - 10);
+
+				}else{
+
+					_horz = -(_popOverHeight + 10);
+
+				}
 
 				popOver.css({
 
-					top:  _top + 'px',
-					left: _left + 'px',
+					top:  _horz + 'px',
+					left: _vert + 'px',
 
 				});
 				

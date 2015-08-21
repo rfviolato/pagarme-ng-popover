@@ -17,9 +17,29 @@ body{
 
 section{
 
-	display: flex;
-  	align-items: center;
-  	justify-content: center;
+	overflow:hidden;
+
+}
+
+h1{
+
+	margin-bottom: 30px;
+
+}
+
+.content{
+
+	position: relative;
+	top:50%;
+	transform: translate(0,-50%);
+
+}
+
+.wrapper, h1{
+
+	display:block;
+	width:100%;
+	text-align: center;
 
 }
 
@@ -32,8 +52,15 @@ section{
 	height: $_size;
 	width: $_size;
 	border-radius: $_size;
-	background-color: red;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
 
+	&:last-child{
+
+		margin: 0 0 0 20px ;
+
+	}
 
 }
 

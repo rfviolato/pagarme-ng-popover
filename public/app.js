@@ -4,6 +4,7 @@ angular
 
 	function testCtrl($scope){
 
-		$scope.testBinding = 'Testando o Popover';
+		$scope.seal = 'That\'s a Seal!';
+		$scope.giraffe = 'And that\'s a Giraffe!';
 		
 	}

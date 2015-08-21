@@ -15,11 +15,22 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <!-- Add your site or application content here -->
         <section ng-controller="testCtrl">
 
-            <div pg-popover transition="true" position="top" content="testBinding" class="trigger"></div>
-            
+            <div class="content">
+
+                <h1>Hover us!</h1>
+
+                <div class="wrapper">
+
+                    <div pg-popover transition="true" position="top" content="seal" class="trigger" style="background-image: url(public/images/seal.jpg);"></div>
+
+                    <div pg-popover transition="true" position="bottom" content="giraffe" class="trigger" style="background-image: url(public/images/giraffe.jpg);"></div>
+                    
+                </div>
+                
+            </div>
+
         </section>
 
         <script src="node_modules/angular/angular.min.js"></script>

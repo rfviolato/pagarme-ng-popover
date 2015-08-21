@@ -22,9 +22,10 @@ section {
 
 .trigger {
   position: relative;
-  height: 80px;
-  width: 80px;
-  border-radius: 80px;
+  display: inline-block;
+  height: 120px;
+  width: 120px;
+  border-radius: 120px;
   background-color: red; }
 
 object {

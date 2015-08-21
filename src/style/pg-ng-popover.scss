@@ -25,9 +25,10 @@ section{
 
 .trigger{
 	
-	$_size: 80px;
+	$_size: 120px;
 
 	position: relative;
+	display: inline-block;
 	height: $_size;
 	width: $_size;
 	border-radius: $_size;

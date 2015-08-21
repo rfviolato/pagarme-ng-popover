@@ -1,7 +1,7 @@
 # pagarme-ng-popover
 Pagar.me's simple directive to provide pop-over functionality
 
-## No Demo yet :(
+## [Demo here!](http://pagarme.github.io/pagarme-ng-popover/)
 
 #### Installation
 

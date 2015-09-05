@@ -10,22 +10,33 @@ body {
   font-family: Verdana; }
 
 section {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center; }
+  overflow: hidden; }
+
+h1 {
+  margin-bottom: 30px; }
+
+.content {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%); }
+
+.wrapper, h1 {
+  display: block;
+  width: 100%;
+  text-align: center; }
 
 .trigger {
   position: relative;
-  height: 80px;
-  width: 80px;
-  border-radius: 80px;
-  background-color: red; }
+  display: inline-block;
+  height: 120px;
+  width: 120px;
+  border-radius: 120px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%; }
+  .trigger:last-child {
+    margin: 0 0 0 20px; }
 
 object {
   display: none; }

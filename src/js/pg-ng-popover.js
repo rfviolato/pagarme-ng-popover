@@ -37,12 +37,9 @@ angular
 		}
 
 		function postLink($scope, $element){
-			var popOver;
 			var isOpened = false;
-			var transitionEndEvt = 'transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd';
 			var elmTpl = '<div class="pg-popover">' + $scope.content + '</div>';
-
-			popOver = angular.element(elmTpl);
+			var popOver = angular.element(elmTpl);
 
 			switch($scope.eventType){
 				case 'click':
@@ -69,34 +66,27 @@ angular
 			}
 
 			function show(){
-				if($scope.transition == 'true'){
-					popOver.off(transitionEndEvt);
-					append();
-					popOver.addClass($scope.openedClass);
+				if($scope.transition !== undefined){
+					$animate.enter(popOver, $element);
+					$scope.$digest();
 				}else{
-					append();
+					$element.append(popOver);
 				}
 
-				function append(){
-					$element.append(popOver);
-					position();
-					isOpened = true;
-				}
-				
+				position();
+				isOpened = true;
 			}
 
 			function hide(){
-				if($scope.transition == 'true'){
-					popOver.on(transitionEndEvt, remove);
-					popOver.removeClass($scope.openedClass);
+				if($scope.transition !== undefined){
+					$timeout(function() {
+						$animate.leave(popOver, $element);
+					});
 				}else{
-					remove();
-				}
-
-				function remove(){
-					isOpened = false;
 					popOver.remove();
 				}
+				
+				isOpened = false;
 			}
 
 			function position(){

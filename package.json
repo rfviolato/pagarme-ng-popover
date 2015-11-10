@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/rfviolato/pagarme-ng-popover",
   "devDependencies": {
-    "angular": "^1.4",
+    "angular": "^1.4.7",
+    "angular-animate": "^1.4.7",
     "connect-livereload": "^0.5.3",
     "del": "^1.2.0",
     "express": "^4.12.4",

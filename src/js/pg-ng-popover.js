@@ -37,6 +37,7 @@ angular
 		}
 
 		function postLink($scope, $element){
+			var animation = {};
 			var isOpened = false;
 			var elmTpl = '<div class="pg-popover">' + $scope.content + '</div>';
 			var popOver = angular.element(elmTpl);
@@ -67,7 +68,8 @@ angular
 
 			function show(){
 				if($scope.transition !== undefined){
-					$animate.enter(popOver, $element);
+					animation.enter ? $animate.cancel(animation.enter) : null;
+					animation.enter = $animate.enter(popOver, $element);
 					$scope.$digest();
 				}else{
 					$element.append(popOver);
@@ -79,9 +81,9 @@ angular
 
 			function hide(){
 				if($scope.transition !== undefined){
-					$timeout(function() {
-						$animate.leave(popOver, $element);
-					});
+					animation.leave ? $animate.cancel(animation.leave) : null;
+					animation.leave = $animate.leave(popOver, $element);
+					$scope.$digest();
 				}else{
 					popOver.remove();
 				}

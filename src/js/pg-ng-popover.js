@@ -68,22 +68,24 @@ angular
 
 			function show(){
 				if($scope.transition !== undefined){
-					animation.enter ? $animate.cancel(animation.enter) : null;
-					animation.enter = $animate.enter(popOver, $element);
-					$scope.$digest();
+					$timeout(function() {
+						animation.enter ? $animate.cancel(animation.enter) : null;
+						animation.enter = $animate.enter(popOver, $element);
+						position();
+					});
 				}else{
 					$element.append(popOver);
+					position();
 				}
-
-				position();
 				isOpened = true;
 			}
 
 			function hide(){
 				if($scope.transition !== undefined){
-					animation.leave ? $animate.cancel(animation.leave) : null;
-					animation.leave = $animate.leave(popOver, $element);
-					$scope.$digest();
+					$timeout(function() {
+						animation.leave ? $animate.cancel(animation.leave) : null;
+						animation.leave = $animate.leave(popOver, $element);						
+					});
 				}else{
 					popOver.remove();
 				}

@@ -69,7 +69,7 @@ angular
 			function show(){
 				if($scope.transition !== undefined){
 					$timeout(function() {
-						animation.enter ? $animate.cancel(animation.enter) : null;
+						animation.leave ? $animate.cancel(animation.leave) : null;
 						animation.enter = $animate.enter(popOver, $element);
 						position();
 					});
@@ -83,7 +83,7 @@ angular
 			function hide(){
 				if($scope.transition !== undefined){
 					$timeout(function() {
-						animation.leave ? $animate.cancel(animation.leave) : null;
+						animation.enter ? $animate.cancel(animation.enter) : null;
 						animation.leave = $animate.leave(popOver, $element);						
 					});
 				}else{
